@@ -1,0 +1,15 @@
+{
+  "name": "my-project-name",
+  "description": "ReactJS training EPAM.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sergeipetrashko8/reactjs-epam.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sergeipetrashko8/reactjs-epam/issues"
+  },
+  "homepage": "https://github.com/sergeipetrashko8/reactjs-epam#readme"
+}
