@@ -13,13 +13,16 @@
   },
   "homepage": "https://github.com/sergeipetrashko8/reactjs-epam#readme",
   "dependencies": {
-    "jest": "^26.6.3",
     "react": "^17.0.1",
     "react-redux": "^7.2.2",
     "react-router": "^5.2.0",
     "redux": "^4.0.5"
   },
   "devDependencies": {
+    "@babel/core": "^7.12.17",
+    "@babel/preset-react": "^7.12.13",
+    "babel-loader": "^8.2.2",
+    "html-webpack-plugin": "^5.2.0",
     "webpack": "^5.23.0",
     "webpack-cli": "^4.5.0",
     "webpack-dev-server": "^3.11.2"
