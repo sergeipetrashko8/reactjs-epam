@@ -1,4 +1,6 @@
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 
 /** 
@@ -7,14 +9,22 @@ const path = require('path');
 const config = {
     entry: path.resolve(__dirname, 'src', 'index.js'),
     plugins: [
+        new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, 'src', 'index.html')
+        }),
+        new MiniCssExtractPlugin({
+            filename: '[name].css',
+            chunkFilename: '[name].css'
         })
     ],
     resolve: {
-        extensions: ['.js', '.jsx']
+        extensions: ['.js', '.jsx'],
+        modules: ['node_modules']
     },
     output: {
+        filename: '[name].bundle.js',
+        chunkFilename: '[name].bundle.js',
         path: path.resolve(__dirname, 'built')
     },
     module: {
@@ -24,7 +34,7 @@ const config = {
                 test: /\.jsx?$/,
                 exclude: /node_modules/,
                 options: {
-                    presets: ['@babel/preset-react']
+                    presets: ['@babel/preset-react'],
                 }
             }
         ]
@@ -39,7 +49,8 @@ module.exports = (_env, { mode: buildMode }) => {
         config.devtool = 'source-map';
         config.devServer = {
             compress: true,
-            open: true
+            open: true,
+            contentBase: path.resolve(__dirname, 'built')
         };
     } else {
         config.optimization = {
