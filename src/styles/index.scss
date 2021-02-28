@@ -1,0 +1,249 @@
+// Define a color variable
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
+
+@import "variables";
+
+body {
+  background-color: #555555;
+  color: #FFFFFF;
+  margin: 0 auto;
+  width: 70rem;
+}
+@media (min-width: 1140px) {
+  body {
+      margin-top: 3rem;
+  }
+}
+
+* {
+  font-family: 'Roboto', sans-serif;
+}
+
+
+.pink-text {
+  color: $color-pink;
+}
+
+.logo {
+  color: $color-pink;
+  font-size: 2rem;
+}
+
+* > .logo:first-child {
+  font-weight: bold;
+}
+
+.addmovie {
+  text-transform: uppercase;
+  color: $color-pink;
+  border: none;
+  font-size: larger;
+  background-color: rgba(90, 90, 90, 0.7);
+  float: right;
+  border-radius: $border-radius;
+  padding: 1rem;
+  font-weight: 500;
+  transition: all 0.3s;
+  &:hover {
+    -webkit-box-shadow: 0px 0px 25px 1px rgba($color-pink, 0.7);
+    box-shadow: 0px 0px 25px 1px rgba($color-pink, 0.7);
+    background-color: rgba(90, 90, 90, 1);
+  }
+}
+
+.header {
+  height: 25rem;
+  margin-bottom: 1rem;
+  background-color: #232323;
+  background-image: url("https://assets.nflxext.com/ffe/siteui/vlv3/e178a4e7-4f52-4661-b2ae-41efa25dca7c/eb618394-24cd-43ae-8799-c1a76a7bcbfc/BY-en-20210222-popsignuptwoweeks-perspective_alpha_website_small.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.header-filter {
+  backdrop-filter: blur(2px) brightness(0.4);
+  height: 100%;
+  overflow: hidden;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  display: block;
+  width: 70rem;
+  height: 5rem;
+  background-color: #424242;
+}
+
+.center-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.content-wrapper {
+  min-height: 100vh;
+  background-color: #232323;
+  padding: 0 3rem 0 3rem;
+  overflow: hidden;
+  margin-bottom: 5rem;
+}
+
+.movie-title {
+  font-weight: 500;
+  font-size: 1.2rem;
+}
+
+.movie-genre {
+  margin-top: 0.8rem;
+  text-transform: capitalize;
+}
+.movie-date {
+  float: right;
+  border: 0.1rem solid #555555;
+  padding: 0.3rem 1.5rem;
+  border-radius: $border-radius;
+}
+
+.fixed-title {
+  position: absolute;
+  top: 1rem;
+  left: 2rem;
+}
+
+.movies-filters {
+  border-bottom-style: solid;
+  border-bottom-color: #424242;
+  margin: 1rem 0;
+  padding-bottom: 1rem;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  color: #aaaaaa;
+}
+
+.movie-filter {
+
+  display: inline;
+
+  a {
+    text-decoration: none;
+    font-weight: 500;
+    margin: 0 1rem;
+    position: relative;
+    color: white;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -0.2rem;
+      left: 0;
+      width: 0;
+      border-top: #aaa;
+      border-top-style: solid;
+      transition: width 0.5s;
+    }
+
+    &:active {
+      color: $color-pink;
+    }
+    &:hover {
+      &:after {
+        width: 100%;
+      }
+    }
+  }
+
+  :first-child {
+    margin-left: initial;
+  }
+  :last-child {
+    margin-right: initial;
+  }
+}
+
+.movie-sort {
+
+  float: right;
+
+  span {
+
+  }
+}
+
+.search-container {
+  margin: auto;
+  width: 80%;
+  margin: 7rem auto 0;
+}
+
+.find-movie-title {
+  font-size: 2.7rem;
+  font-weight: 100;
+  text-transform: uppercase;
+  letter-spacing: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.search-input {
+  background: rgba(0, 0, 0, 0.7);
+  font-size: 1.2rem;
+  height: $seatch-inputs-height;
+  border: initial;
+  border-radius: $border-radius;
+  width: 67%;
+  color: white;
+  padding: 0 1rem;
+
+  &:hover {
+    box-shadow: 0 0 15px 3px $color-pink;
+  }
+
+  &:focus {
+    box-shadow: inset 0 0 8px 0px #f65261;
+    outline: none;
+  }
+}
+
+.search-btn {
+  background-color: $color-pink;
+  color: white;
+  background-color: #f65261;
+  font-size: 1.6rem;
+  border-radius: $border-radius;
+  text-transform: uppercase;
+  border: initial;
+  width: 28%;
+  height: $seatch-inputs-height;
+  float: right;
+}
+
+.movie-card {
+  transition: all 0.5s;
+  margin-bottom: 2rem;
+  border-style: solid;
+  border-color: #232323;
+  border-radius: $border-radius;
+
+  &:hover {
+    box-shadow: 0px 0px 20px 4px $color-pink;
+  }
+
+  img {
+    height: 30rem;
+    width: 20rem;
+  }
+}
+
+.movie-info {
+  padding: 1rem;
+  border-radius: $border-radius;
+}
+
+.movies-container {
+  display: flex;
+  color: #989898;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
