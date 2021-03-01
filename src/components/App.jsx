@@ -195,7 +195,6 @@ const HeaderWithTitle = ({ children }) => (
     </Header>
 );
 
-
 const _ContentWrapper = styled.div`
     min-height: 100vh;
     background-color: #232323;
@@ -271,12 +270,9 @@ const _SearchInput = styled.input`
     }
 `;
 
-
 const SearchWidget = () => (
     <div className="search-controls-wrapper">
-        <_SearchInput
-            placeholder="What do you want to watch?"
-        ></_SearchInput>
+        <_SearchInput placeholder="What do you want to watch?"></_SearchInput>
 
         <_SearchBtn>search</_SearchBtn>
     </div>
@@ -289,7 +285,6 @@ const AppTitle = () => {
         </>
     );
 };
-
 
 const _MoviesHeader = styled.div`
     border-bottom-style: solid;
@@ -305,37 +300,37 @@ const _MoviesNav = styled.nav`
     display: inline;
 
     a {
-      text-decoration: none;
-      font-weight: 500;
-      margin: 0 1rem;
-      position: relative;
-      color: ${whiteColor};
-  
-      &::after {
-        content: "";
-        position: absolute;
-        bottom: -0.2rem;
-        left: 0;
-        width: 0;
-        border-top: solid ${whiteColor} 0.2rem;
-        transition: width 0.5s;
-      }
-  
-      &:active {
-        color: ${pinkColor};
-      }
-      &:hover {
-        &:after {
-          width: 100%;
+        text-decoration: none;
+        font-weight: 500;
+        margin: 0 1rem;
+        position: relative;
+        color: ${whiteColor};
+
+        &::after {
+            content: "";
+            position: absolute;
+            bottom: -0.2rem;
+            left: 0;
+            width: 0;
+            border-top: solid ${whiteColor} 0.2rem;
+            transition: width 0.5s;
         }
-      }
+
+        &:active {
+            color: ${pinkColor};
+        }
+        &:hover {
+            &:after {
+                width: 100%;
+            }
+        }
     }
-  
+
     :first-child {
-      margin-left: initial;
+        margin-left: initial;
     }
     :last-child {
-      margin-right: initial;
+        margin-right: initial;
     }
 `;
 
@@ -378,13 +373,25 @@ const Movies = () => {
     );
 };
 
-const MoviesErrorBoundary = ({ children }) => {
-    if (!children || children.length === 0) {
-        return <div>no movie found</div>;
-    } else {
-        return children;
+class MoviesErrorBoundary extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { hasError: false };
     }
-};
+
+    static getDerivedStateFromError(error) {
+        return { hasError: true };
+    }
+
+    componentDidCatch(error, errorInfo) {}
+
+    render() {
+        if (this.state.hasError) {
+            return <div>no movie found</div>;
+        }
+        return this.props.children;
+    }
+}
 
 const _MovieInfo = styled.div({
     padding: "1rem",
@@ -443,5 +450,5 @@ MovieCard.propTypes = {
     imgLink: PropTypes.string.isRequired,
     genres: PropTypes.arrayOf(PropTypes.string),
     title: PropTypes.string.isRequired,
-    releaseYear: PropTypes.number.isRequired
+    releaseYear: PropTypes.number.isRequired,
 };
