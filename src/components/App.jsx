@@ -203,9 +203,15 @@ const _ContentWrapper = styled.div`
     margin-bottom: 5rem;
 `;
 
+const _Divider = styled.hr`
+    border-style: initial;
+    border-top: solid #424242 0.3rem;
+`;
+
 const Content = () => (
     <_ContentWrapper>
         <MoviesFilter />
+        <_Divider/>
         <Movies />
     </_ContentWrapper>
 );
@@ -287,10 +293,7 @@ const AppTitle = () => {
 };
 
 const _MoviesHeader = styled.div`
-    border-bottom-style: solid;
-    border-bottom-color: #424242;
     margin: 1rem 0;
-    padding-bottom: 1rem;
     font-size: 1.2rem;
     text-transform: uppercase;
     color: #aaaaaa;
