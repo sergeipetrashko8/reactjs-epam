@@ -1,9 +1,5 @@
-// eslint-disable-next-line no-undef
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-// eslint-disable-next-line no-undef
 const path = require("path");
 
 /**
@@ -20,10 +16,7 @@ const config = {
         new HtmlWebpackPlugin({
             template: "./src/index.html",
         }),
-        new CleanWebpackPlugin(),
-        new MiniCssExtractPlugin({
-            filename: 'css/[name].css'
-        })
+        new CleanWebpackPlugin()
     ],
     module: {
         rules: [
@@ -36,19 +29,15 @@ const config = {
                         presets: ["@babel/preset-env", "@babel/preset-react"],
                     },
                 },
-
-            },
-            {
-                test: /.s?css$/,
-                use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
-            },
+            }
         ],
     },
     optimization: {
         splitChunks: {
-            chunks: "all"
+            chunks: "all",
         },
     },
+    target: "web"
 };
 
 /**
@@ -70,9 +59,7 @@ module.exports = function (env, argv) {
     if (argv.mode === "production") {
         config.optimization = {
             minimize: true,
-            minimizer: [
-                new CssMinimizerPlugin()
-            ]
+            minimizer: [new CssMinimizerPlugin()],
         };
     }
 
