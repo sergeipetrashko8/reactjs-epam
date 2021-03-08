@@ -1,10 +1,9 @@
-import styles from "../styles.js";
 import React from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
-import { movies } from "../data.js";
 
-export const MoviesFilter = () => {
+import styles from "../styles.js";
+
+export const MoviesFilter = ({ sortingChanged }) => {
     const genres = ["all", "documentary", "comedy", "horror", "crime"];
 
     return (
@@ -18,24 +17,41 @@ export const MoviesFilter = () => {
             </_MoviesNav>
             <_MovieSortContainer width="15rem">
                 <span>sort by</span>
-                <MovieSortSelect/>
+                <MovieSortSelect onSelected={sortingChanged}/>
             </_MovieSortContainer>
         </_MoviesHeader>
     );
 };
 
-const MovieSortSelect = () => {
-    return (
-        <_MovieSortContainer>
-            <select>
-                <option value="default">default</option>
-                <option value="date:asc">release date: asc</option>
-                <option value="date:desc">release date: desc</option>
-                <option value="rating:asc">rating: asc</option>
-                <option value="rating:desc">rating: desc</option>
-            </select>
-        </_MovieSortContainer>
-    );
+class MovieSortSelect extends React.Component {
+
+    constructor() {
+        super(...arguments);
+
+        this.state = {
+            sortValue: "default"
+        };
+    }
+
+    changeSelectValue(e) {
+        console.log(e);
+        const value = e.target.value.split(":");
+        this.props.onSelected({ prop: value[0], order: value[1] == 'true' });
+    }   
+
+    render() {
+        return (
+            <_MovieSortContainer>
+                <select onChange={this.changeSelectValue.bind(this)}>
+                    <option value="default">default</option>
+                    <option value="releaseYear:true">release date</option>
+                    <option value="releaseYear:false">release date: desc</option>
+                    <option value="rating:true">rating: asc</option>
+                    <option value="rating:false">rating: desc</option>
+                </select>
+            </_MovieSortContainer>
+        );
+    }
 };
 
 const _MoviesContainer = styled.div`
@@ -72,7 +88,9 @@ const MoviesFound = ({ count }) => {
     return <_Text>No movies found :?(</_Text>;
 };
 
-export const Movies = () => {
+export const Movies = ({ movies }) => {
+    console.log("moview render")
+
     return (
         <>
             <_MoviesFoundContainer>
@@ -111,6 +129,7 @@ const _MovieDate = styled.span({
 const _MovieGenre = styled.div({
     marginTop: "0.8rem",
     textTransform: "capitalize",
+    width: "12.5rem"
 });
 
 const _MovieImage = styled.img({
@@ -198,7 +217,6 @@ const _MovieMenuContainer = styled.div`
     visible: ${(p) => p.show};
 `;
 
-const _CloseBtn = styled.div({});
 const _MovieMenuBtn = styled.button({});
 
 const CloseBtn = () => {
@@ -260,12 +278,12 @@ class MovieCard extends React.Component {
     }
 }
 
-MovieCard.propTypes = {
-    imgLink: PropTypes.string.isRequired,
-    genres: PropTypes.arrayOf(PropTypes.string),
-    title: PropTypes.string.isRequired,
-    releaseYear: PropTypes.number.isRequired,
-};
+// MovieCard.propTypes = {
+//     imgLink: PropTypes.string.isRequired,
+//     genres: PropTypes.arrayOf(PropTypes.string),
+//     title: PropTypes.string.isRequired,
+//     releaseYear: PropTypes.number.isRequired,
+// };
 
 const _MoviesHeader = styled.div`
     margin: 1rem 0;

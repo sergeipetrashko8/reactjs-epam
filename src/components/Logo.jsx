@@ -1,6 +1,7 @@
-import styles from "../styles.js";
 import styled from "styled-components";
 import React from "react";
+
+import styles from "../styles.js";
 
 const _PinkLogo = styled.span({
     color: styles.colors.pink,
