@@ -16,32 +16,78 @@ export const MoviesFilter = () => {
                     </a>
                 ))}
             </_MoviesNav>
-            <_MovieSort>
+            <_MovieSortContainer width="15rem">
                 <span>sort by</span>
-                <select></select>
-            </_MovieSort>
+                <MovieSortSelect/>
+            </_MovieSortContainer>
         </_MoviesHeader>
     );
 };
 
-const _MoviesContainer = styled.div`
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-`;
-
-export const Movies = () => {
+const MovieSortSelect = () => {
     return (
-        <_MoviesContainer>
-            <MoviesErrorBoundary>
-                {movies.map((val, ind) => (
-                    <MovieCard key={ind} {...val} />
-                ))}
-            </MoviesErrorBoundary>
-        </_MoviesContainer>
+        <_MovieSortContainer>
+            <select>
+                <option value="default">default</option>
+                <option value="date:asc">release date: asc</option>
+                <option value="date:desc">release date: desc</option>
+                <option value="rating:asc">rating: asc</option>
+                <option value="rating:desc">rating: desc</option>
+            </select>
+        </_MovieSortContainer>
     );
 };
 
+const _MoviesContainer = styled.div`
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 1rem;
+    row-gap: 1rem;
+`;
+
+const _MoviesFoundContainer = styled.div({
+    height: "3rem",
+    display: "flex",
+    alignItems: "center",
+});
+
+const _Text = styled.span((props) => ({
+    fontWeight: props.weight,
+    fontSize: props.size,
+    display: "inline-block",
+    width: props.width
+}));
+
+const MoviesFound = ({ count }) => {
+    if (count && count > 0) {
+        return (
+            <>
+                <_Text weight="600" size="1.2rem" width="2rem">
+                    {count}
+                </_Text>
+                <_Text weight="100">movies found</_Text>
+            </>
+        );
+    }
+    return <_Text>No movies found :?(</_Text>;
+};
+
+export const Movies = () => {
+    return (
+        <>
+            <_MoviesFoundContainer>
+                <MoviesFound count={movies.length} />
+            </_MoviesFoundContainer>
+            <_MoviesContainer>
+                <MoviesErrorBoundary>
+                    {movies.map((val, ind) => (
+                        <MovieCard key={ind} {...val} />
+                    ))}
+                </MoviesErrorBoundary>
+            </_MoviesContainer>
+        </>
+    );
+};
 
 const _MovieInfo = styled.div({
     padding: "1rem",
@@ -51,6 +97,8 @@ const _MovieInfo = styled.div({
 const _MovieTitle = styled.span({
     fontWeight: 500,
     fontSize: "1.2rem",
+    maxWidth: "12rem",
+    display: "inline-block",
 });
 
 const _MovieDate = styled.span({
@@ -67,14 +115,13 @@ const _MovieGenre = styled.div({
 
 const _MovieImage = styled.img({
     height: "30rem",
-    width: "20rem",
+    width: "100%",
     borderRadius: styles.dimensions.borderRadius,
-    position: "relative"
+    position: "relative",
 });
 
 const _MovieCard = styled.div`
     transition: box-shadow 0.5s;
-    margin-bottom: 2rem;
     border: 0.2rem solid ${styles.colors.darkGray};
     border-radius: ${styles.dimensions.borderRadius};
     position: relative;
@@ -111,14 +158,13 @@ const _MovieBtnCircle = styled.span({
     height: "0.3rem",
     width: "0.3rem",
     backgroundColor: styles.colors.white,
-    borderRadius: "100%"
+    borderRadius: "100%",
 });
 
-
-const _MovieSort = styled.span`
+const _MovieSortContainer = styled.div`
     float: right;
+    width: ${p => p.width}
 `;
-
 
 class MoviesErrorBoundary extends React.Component {
     constructor(props) {
@@ -140,23 +186,79 @@ class MoviesErrorBoundary extends React.Component {
     }
 }
 
-const MovieCard = ({ imgLink, genres, title, releaseYear }) => {
+const _MovieMenuContainer = styled.div`
+    height: 6rem;
+    width: 12rem;
+    position: absolute;
+    z-index: 1;
+    background-color: blue;
+    border-radius: 0.3rem;
+    display: flex;
+    flex-direction: column;
+    visible: ${(p) => p.show};
+`;
+
+const _CloseBtn = styled.div({});
+const _MovieMenuBtn = styled.button({});
+
+const CloseBtn = () => {
     return (
-        <_MovieCard>
-            <_MovieBtn>
-                <_MovieBtnCircle/>
-                <_MovieBtnCircle/>
-                <_MovieBtnCircle/>
-            </_MovieBtn>
-            <_MovieImage src={imgLink} />
-            <_MovieInfo>
-                <_MovieTitle>{title}</_MovieTitle>
-                <_MovieDate>{releaseYear}</_MovieDate>
-                <_MovieGenre>{genres}</_MovieGenre>
-            </_MovieInfo>
-        </_MovieCard>
+        <div>
+            <button style={{ float: "right" }}>Close</button>
+        </div>
     );
 };
+
+const MovieMenu = ({ isOpen }) => {
+    return (
+        <_MovieMenuContainer show={isOpen}>
+            <CloseBtn />
+            <_MovieMenuBtn>Edit</_MovieMenuBtn>
+            <_MovieMenuBtn>Remove</_MovieMenuBtn>
+        </_MovieMenuContainer>
+    );
+};
+
+class MovieCard extends React.Component {
+    constructor() {
+        super(...arguments);
+
+        this.state = {
+            menuIsOpened: false,
+        };
+    }
+
+    closeHandler() {
+        this.setState({ menuIsOpened: false });
+    }
+
+    render() {
+        const { imgLink, genres, title, releaseYear } = this.props;
+
+        return (
+            <_MovieCard>
+                <_MovieBtn
+                    onClick={(e) => {
+                        this.setState({ menuIsOpened: true });
+                    }}
+                >
+                    <_MovieBtnCircle />
+                    <_MovieBtnCircle />
+                    <_MovieBtnCircle />
+                </_MovieBtn>
+                {this.state.menuIsOpened && (
+                    <MovieMenu closeHandler={closeHandler} />
+                )}
+                <_MovieImage src={imgLink} />
+                <_MovieInfo>
+                    <_MovieTitle>{title}</_MovieTitle>
+                    <_MovieDate>{releaseYear}</_MovieDate>
+                    <_MovieGenre>{genres.join(", ")}</_MovieGenre>
+                </_MovieInfo>
+            </_MovieCard>
+        );
+    }
+}
 
 MovieCard.propTypes = {
     imgLink: PropTypes.string.isRequired,

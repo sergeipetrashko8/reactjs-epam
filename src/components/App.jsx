@@ -118,7 +118,7 @@ const _ContentWrapper = styled.div`
     background-color: ${styles.colors.darkGray};
     padding: 0 3rem 0 3rem;
     overflow: hidden;
-    padding-bottom: 5rem;
+    padding-bottom: 7rem;
 `;
 
 const _Divider = styled.hr`
